@@ -4,7 +4,7 @@ import time, requests, random
 from requests.exceptions import Timeout
 import threading
 xz = 1
-status = 'bangun'
+status = 'tidur'
 nama = 'xyx'
 judul = 'xyz'
 coin = 'xyy'
@@ -1552,11 +1552,11 @@ def on_message(ws, message):
         
         if evn == 'live_message':#data message
             psn = chat['data']['message']
-            tag = chat['data']['author']['tag']
+  
             cht = chat['data']['message']
             print(uid)
             print(cht)
-            print(chat['data']['author']['tag'])
+            print(chat['data']['author'])
             emot = [
             '🤭🤭🤭', '🙄🙄🙄', '😝😝😝', '😇😇😇', '😌😌😌', '😔😔😔', '🥺🥺🥺']
             ya = '{"appversion":"4.3.22","event":"live_message","token":"'+tokens+'","useragent":"Android","message":"' + nick + ' YAKALI ' + random.choice(emot) + '"}'
@@ -2489,26 +2489,26 @@ def on_open(ws):
 
 if __name__ == "__main__":
 	nomor= "082284850571"
-	password= "qwerty12"
+	password= "qwerty123"
 	headers99 = {'accept':'text/htmlapplication/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
 	"origin":"https://www.spooncast.net",
 	"referer":"https://www.spooncast.net/",
 	'content-type':'application/json',
 	'User-Agent':'AppleWebKit/537.36 Mozilla'}
-		response=requests.post('https://id-api.spooncast.net/signin/?version=2',headers=headers99,json={"sns_type":"phone","sns_id":nomor,"password":password})
+	response=requests.post('https://id-api.spooncast.net/signin/?version=2',headers=headers99,json={"sns_type":"phone","sns_id":nomor,"password":password})
 	#print(response.json())
 	rscode = response.json()['results'][0]['result_code']
 	if rscode !=1:
 		print("nomor atau password salah , ulangi lagi")
 	print("berhasil login")
-	tirublock=response.json()['results'][0]['tag']
+	tirublock=response.json()['results'][0]
 	#time.sleep(100)
 	tokenp =response.json()['results'][0]['token']
 	print(response.json()['results'][0]['nickname'])
 	tagi = str(response.json()['results'][0]['id'])
 	userid=tagi
 	print(userid)
-	etid = str(response.json()['results'][0]['tag'])
+	etid = str(response.json()['results'][0])
 	tokens = tokenp
 	txtid = input("masukkan link spoon: ")
 	headers={'User-Agent':'Mozilla/5.0','accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3'}
@@ -2521,28 +2521,21 @@ if __name__ == "__main__":
 	'content-type':'application/json',
 	'User-Agent':'AppleWebKit/537.36 Mozilla'}
 	response2 = requests.get('https://id-api.spooncast.net/lives/'+slink,headers=headers8)
-	json2=response2
-	tulung = response2.json()['results'][0]['author']
-	nm = tulung['nickname']
-	try:
-		pp = tulung['profile_url'][28:]
-	except:
-		print('gabisa samain pp')
-		pp = 'profiles/l/GQKn9lwUnv0D4a/92b5b339-11f1-4381-be2e-d29a9f6a1d9c.jpg'
+	
 	headers={'Authorization':'Token '+tokens,
 	'accept':'text/htmlapplication/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
 	"origin":"https://www.spooncast.net",
 	"referer":"https://www.spooncast.net/",
 	'content-type':'application/json',
 	'User-Agent':'AppleWebKit/537.36 Mozilla'}
-	gantipp = requests.put('https://id-api.spooncast.net/users/'+str(tagi)+'/',headers=headers,json={'nickname':'Jing MJ '+nm+'','profile_key':''+pp+''})
+
 	mypesan = '{"live_id":'+slink+',"token":"'+tokens+'","event":"live_join","appversion":"4.3.22","useragent":"Android","type":"live_req"}'
 	headers10={'User-Agent':'Spoon/4.3.22(203) Dalvik/2.1.0 (Linux; U; Android 9; Redmi 4X Build/PQ2A.190305.002'}
-	r = requests.get('https://id-api.spooncast.net/id/lives/'+slink+'/',headers=headers10)
-	id = r.json()['results'][0]['author']['tag']
+	r = requests.get('https://id-api.spooncast.net/lives/'+slink+'/',headers=headers10)
+	id = r.json()['results'][0]['author']
 	iduser.insert(0,str(id))
 	websocket.enableTrace(True)
-	ws = websocket.WebSockeApp("wss://id-heimdallr.spooncast.net/"+slink,
+	ws = websocket.WebSocketApp("wss://id-heimdallr.spooncast.net/"+slink,
 	on_message = on_message,
 	on_close = on_close)
 	ws.on_open = on_open
